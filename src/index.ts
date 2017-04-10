@@ -1,9 +1,12 @@
-import { compare } from './lib/compare';
+import {
+  CompareResult,
+  compare,
+} from './lib/compare';
 
 function main(): void {
-  console.log(process.argv);
-  process.argv.forEach((val, index, array) => {
-    console.log(index + ': ' + val);
-  });
-  compare('22 11 2001', '29 12 2001');
+  const result: CompareResult = compare(process.argv[2], process.argv[3]);
+
+  console.log(`${result.earliest}, ${result.latest}, Difference: ${result.difference} days.`);
 }
+
+main();

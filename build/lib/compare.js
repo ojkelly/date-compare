@@ -46,7 +46,6 @@ function explodeDate(date, type) {
             month: parseInt(explodeDate[1]),
             year: parseInt(explodeDate[2]),
         };
-        console.log(dateObject);
         return dateObject;
     }
     catch (err) {
@@ -73,14 +72,11 @@ function validateDate(date) {
     return true;
 }
 function calculateEpochInDays(date) {
-    console.log('arr', [...Array(date.month - 1)].map((_, index) => index + 1));
     const dayNumber = [...Array(date.month - 1)]
         .map((_, index) => index + 1)
         .reduce((acculumaltor, month) => {
         return acculumaltor + dateTimeConfig_1.dateTimeConfig[month - 1].days;
     });
-    console.log('dn', dayNumber);
-    console.log('epoch', ((date.year * 365) + dayNumber + date.day));
     return ((date.year * 365) + dayNumber + date.day);
 }
 //# sourceMappingURL=compare.js.map

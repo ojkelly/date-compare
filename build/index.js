@@ -2,10 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const compare_1 = require("./lib/compare");
 function main() {
-    console.log(process.argv);
-    process.argv.forEach((val, index, array) => {
-        console.log(index + ': ' + val);
-    });
-    compare_1.compare('22 11 2001', '29 12 2001');
+    const result = compare_1.compare(process.argv[2], process.argv[3]);
+    console.log(`${result.earliest}, ${result.latest}, Difference: ${result.difference} days.`);
 }
+main();
 //# sourceMappingURL=index.js.map

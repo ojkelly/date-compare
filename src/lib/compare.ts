@@ -11,11 +11,7 @@ const EPOCH: DateObject = {
  * @param leftDate
  * @param rightDate
  */
-function compare(leftDate: string, rightDate: string): {
-  earliest: string,
-  latest: string,
-  difference: number,
-} {
+function compare(leftDate: string, rightDate: string): CompareResult {
   // Parse our arguments
   const leftDateObject: DateObject = explodeDate(leftDate, 'leftDate');
   const rightDateObject: DateObject = explodeDate(rightDate, 'rightDate');
@@ -63,7 +59,6 @@ function explodeDate(date: string, type: string): DateObject {
       month: parseInt(explodeDate[1]),
       year: parseInt(explodeDate[2]),
     };
-    console.log(dateObject);
     return dateObject;
   } catch (err) {
     throw new TypeError(`Improperly formatted ${type}, expecting DD MM YYYY`);
@@ -99,7 +94,6 @@ function validateDate(date: DateObject): boolean {
 }
 
 function calculateEpochInDays(date: DateObject): number {
-  console.log('arr', [...Array(date.month - 1)].map((_, index: number) => index + 1));
   // calculate the day number for the year.
   const dayNumber: number =
     [...Array(date.month - 1)] // count each day for every month, except the current one
@@ -108,8 +102,6 @@ function calculateEpochInDays(date: DateObject): number {
         return acculumaltor + dateTimeConfig[month - 1].days;
       });
 
-  console.log('dn', dayNumber);
-  console.log('epoch', ((date.year * 365) + dayNumber + date.day));
   return ((date.year * 365) + dayNumber + date.day);
 }
 
@@ -120,6 +112,13 @@ interface DateObject {
   year: number;
 }
 
+interface CompareResult {
+  earliest: string;
+  latest: string;
+  difference: number;
+}
+
 export {
   compare,
+  CompareResult,
 };
