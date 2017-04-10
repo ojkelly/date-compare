@@ -1,0 +1,35 @@
+{
+  "name": "date-compare",
+  "version": "1.0.0",
+  "description": "A small application to compute the difference between two dates",
+  "main": "src/index.ts",
+  "author": "Owen Kelly",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^7.0.12",
+    "ava": "^0.19.1",
+    "concurrently": "^3.4.0",
+    "enclose": "^2.2.0",
+    "sleep-ms": "^2.0.1",
+    "trash-cli": "^1.4.0",
+    "ts-node": "^3.0.2",
+    "typescript": "^2.2.2"
+  },
+  "ava": {
+    "source": [
+      "build/**/*.js",
+      "!build/**/*.spec.js"
+    ],
+    "files": [
+      "!build/**/*.js",
+      "build/**/*.spec.js"
+    ]
+  },
+  "scripts": {
+    "compare": "ts-node src/index.ts",
+    "watch": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'sleepms 2000 && ava --watch'",
+    "build": "trash build && yarn build:main",
+    "build:main": "tsc -p tsconfig.json",
+    "test": "yarn lint && yarn unit && yarn check-coverage"
+  }
+}
