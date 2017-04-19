@@ -11,9 +11,3 @@ To run:
     # Run the compare app
 
     yarn run compare "DD MM YYYY" "DD MM YYYY"
-
-
-
-## Caveats
-
-- Cannot calculate for leap days yet.
