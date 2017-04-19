@@ -7,8 +7,8 @@ const EPOCH = {
     year: 1970,
 };
 function compare(leftDate, rightDate) {
-    const leftDateObject = explodeDate(leftDate, 'leftDate');
-    const rightDateObject = explodeDate(rightDate, 'rightDate');
+    const leftDateObject = createDateObject(leftDate, 'leftDate');
+    const rightDateObject = createDateObject(rightDate, 'rightDate');
     try {
         validateDate(leftDateObject);
         validateDate(rightDateObject);
@@ -16,6 +16,10 @@ function compare(leftDate, rightDate) {
     catch (err) {
         throw err;
     }
+    const leftDayNumber = dayNumber(leftDateObject.day, leftDateObject.month, leftDateObject.year);
+    const rightDayNumber = dayNumber(rightDateObject.day, rightDateObject.month, rightDateObject.year);
+    const differenceFromYears = findDifferenceFromYears(leftDateObject.year, rightDateObject.year);
+    const differenceFromDayNumbers = (Math.max(leftDayNumber, rightDayNumber) - Math.min(leftDayNumber, rightDayNumber));
     const leftEpoch = calculateEpochInDays(leftDateObject);
     const rightEpoch = calculateEpochInDays(rightDateObject);
     let earliest = undefined;
@@ -34,11 +38,11 @@ function compare(leftDate, rightDate) {
     return {
         earliest: `${earliest.day} ${earliest.month} ${earliest.year}`,
         latest: `${latest.day} ${latest.month} ${latest.year}`,
-        difference: Math.max(leftEpoch, rightEpoch) - Math.min(leftEpoch, rightEpoch),
+        difference: Math.abs(differenceFromYears - differenceFromDayNumbers),
     };
 }
 exports.compare = compare;
-function explodeDate(date, type) {
+function createDateObject(date, type) {
     const explodeDate = date.split(' ');
     try {
         const dateObject = {
@@ -71,12 +75,45 @@ function validateDate(date) {
     }
     return true;
 }
-function calculateEpochInDays(date) {
-    const dayNumber = [...Array(date.month - 1)]
-        .map((_, index) => index + 1)
-        .reduce((acculumaltor, month) => {
-        return acculumaltor + dateTimeConfig_1.dateTimeConfig[month - 1].days;
+function dayNumber(day, month, year) {
+    const leapYear = isLeapYear(year);
+    const monthCount = [...Array(month)]
+        .map((_, index) => index - 1)
+        .reduce((accumulator, month) => {
+        if (leapYear) {
+            return accumulator + dateTimeConfig_1.dateTimeConfigLeapYear[month].days;
+        }
+        return accumulator + dateTimeConfig_1.dateTimeConfig[month].days;
     });
-    return ((date.year * 365) + dayNumber + date.day);
+    return monthCount + day + 1;
 }
+exports.dayNumber = dayNumber;
+function findDifferenceFromYears(leftYear, rightYear) {
+    const years = [...Array(Math.max(leftYear, rightYear))]
+        .map((_, index) => index)
+        .slice(Math.min(leftYear, rightYear), Math.max(leftYear, rightYear) + 1);
+    return years.reduce((accumulator, year) => {
+        if (isLeapYear(year)) {
+            return accumulator + 366;
+        }
+        return accumulator + 365;
+    }, 0);
+}
+exports.findDifferenceFromYears = findDifferenceFromYears;
+function calculateEpochInDays(date) {
+    const dayCountFromYears = [...Array(date.year)]
+        .map((_, index) => index)
+        .reduce((accumulator, year) => {
+        if (isLeapYear(year)) {
+            return accumulator + 366;
+        }
+        return accumulator + 365;
+    }, 0);
+    return (dayCountFromYears + dayNumber(date.day, date.month, date.year) + date.day);
+}
+function isLeapYear(year) {
+    return (year % 4 === 0
+        && year % 100 !== 0) || year % 400 === 0;
+}
+exports.isLeapYear = isLeapYear;
 //# sourceMappingURL=compare.js.map

@@ -23,13 +23,16 @@
     "files": [
       "!build/**/*.js",
       "build/**/*.spec.js"
-    ]
+    ],
+    "watch": true
   },
   "scripts": {
     "compare": "ts-node src/index.ts",
-    "watch": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'sleepms 2000 && ava --watch'",
+    "watch": "trash build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'sleepms 2000 && ava --watch'",
     "build": "trash build && yarn build:main",
     "build:main": "tsc -p tsconfig.json",
-    "test": "yarn lint && yarn unit && yarn check-coverage"
+    "build:watch": "tsc -p tsconfig.json",
+    "test": "yarn unit && yarn check-coverage",
+    "test:watch": "ava --watch"
   }
 }

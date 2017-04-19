@@ -14,4 +14,18 @@ exports.dateTimeConfig = [
     { 'days': 30 },
     { 'days': 31 },
 ];
+exports.dateTimeConfigLeapYear = [
+    { 'days': 31 },
+    { 'days': 29 },
+    { 'days': 31 },
+    { 'days': 30 },
+    { 'days': 31 },
+    { 'days': 30 },
+    { 'days': 31 },
+    { 'days': 31 },
+    { 'days': 30 },
+    { 'days': 31 },
+    { 'days': 30 },
+    { 'days': 31 },
+];
 //# sourceMappingURL=dateTimeConfig.js.map

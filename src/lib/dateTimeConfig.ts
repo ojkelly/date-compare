@@ -11,5 +11,18 @@ export const dateTimeConfig: any[] = [
   { 'days': 31 },
   { 'days': 30 },
   { 'days': 31 },
-]
-  ;
+];
+export const dateTimeConfigLeapYear: any[] = [
+  { 'days': 31 },
+  { 'days': 29 },
+  { 'days': 31 },
+  { 'days': 30 },
+  { 'days': 31 },
+  { 'days': 30 },
+  { 'days': 31 },
+  { 'days': 31 },
+  { 'days': 30 },
+  { 'days': 31 },
+  { 'days': 30 },
+  { 'days': 31 },
+];
